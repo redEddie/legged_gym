@@ -1,3 +1,9 @@
+Observation (48) : (with lidar will be 235)
+Action (12) : position of each velocity
+
+
+---
+
 # Isaac Gym Environments for Legged Robots #
 This repository provides the environment used to train ANYmal (and other robots) to walk on rough terrain using NVIDIA's Isaac Gym.
 It includes all components needed for sim-to-real transfer: actuator network, friction & mass randomization, noisy observations and random pushes during training.  

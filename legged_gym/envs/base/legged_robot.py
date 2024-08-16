@@ -457,7 +457,7 @@ class LeggedRobot(BaseTask):
             [NOTE]: Must be adapted when changing the observations structure
 
         Args:
-            cfg (Dict): Environment config file
+            cfg (Dict): Environment config file`
 
         Returns:
             [torch.Tensor]: Vector of scales used to multiply a uniform distribution in [-1, 1]
