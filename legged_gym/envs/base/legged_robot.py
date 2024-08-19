@@ -501,7 +501,7 @@ class LeggedRobot(BaseTask):
 
         self.contact_forces = gymtorch.wrap_tensor(net_contact_forces).view(self.num_envs, -1, 3) # shape: num_envs, num_bodies, xyz axis
         self.rigid_body_states = gymtorch.wrap_tensor(rigid_body_states).view(self.num_envs, -1, 13) 
-        # Buffer has shape (num_environments, num_rigid_bodies * 13). 
+        # rigid_body_states has shape (num_environments, num_rigid_bodies * 13). 
         # State for each rigid body contains position([0:3]), rotation([3:7]), linear velocity([7:10]), and angular velocity([10:13]).
 
         # initialize some data used later on
@@ -913,10 +913,27 @@ class LeggedRobot(BaseTask):
 
     def _reward_foot_clearance(self):
         # match target foot clearance
-        print("rigid_body_tensor is ", self.rigid_body_states)
+        # print("rigid_body_tensor is \n", self.rigid_body_states)
 
-        # case #1 : standing will 
-        reward = -dist(target, current) * (foot_contact < 0)
+        foot_rigid_body_states = self.rigid_body_states[:, self.feet_indices, :]
+        # print("feet_indices \n", self.feet_indices)
+        # print("foot_Rigid_body \n", foot_rigid_body_states)
+        foot0 = foot_rigid_body_states[0, 0, 2]
+        foot1 = foot_rigid_body_states[0, 1, 2]
+        foot2 = foot_rigid_body_states[0, 2, 2]
+        foot3 = foot_rigid_body_states[0, 3, 2]
+        print(foot0, foot1, foot2, foot3)
+
+
+        # this reward will only work for plane terrain
+        foot_values = torch.tensor([foot0, foot1, foot2, foot3])
+        max_foot_value = torch.max(foot_values)
+        # case #1 : no panelize on standing
+        # reward = -dist(target, current) * (foot_contact < 0)
+        # reward1 = 
         
+        # case #2 : panelize on walking(gets the highest foot and compare with target heigth)
+        # reward2 = 
+
         # TypeError: unsupported operand tyzpe(s) for *: 'NoneType' and 'float'
         return 1
