@@ -109,6 +109,7 @@ class LeggedRobot(BaseTask):
         """
         self.gym.refresh_actor_root_state_tensor(self.sim)
         self.gym.refresh_net_contact_force_tensor(self.sim)
+        self.gym.refresh_rigid_body_state_tensor(self.sim)
 
         self.episode_length_buf += 1
         self.common_step_counter += 1
@@ -499,7 +500,9 @@ class LeggedRobot(BaseTask):
         self.base_quat = self.root_states[:, 3:7]
 
         self.contact_forces = gymtorch.wrap_tensor(net_contact_forces).view(self.num_envs, -1, 3) # shape: num_envs, num_bodies, xyz axis
-        self.rigid_body_states = gymtorch.wrap_tensor(rigid_body_states)
+        self.rigid_body_states = gymtorch.wrap_tensor(rigid_body_states).view(self.num_envs, -1, 13) 
+        # Buffer has shape (num_environments, num_rigid_bodies * 13). 
+        # State for each rigid body contains position([0:3]), rotation([3:7]), linear velocity([7:10]), and angular velocity([10:13]).
 
         # initialize some data used later on
         self.common_step_counter = 0
@@ -916,4 +919,6 @@ class LeggedRobot(BaseTask):
 
     def _reward_foot_clearance(self):
         # match target foot clearance
-        print(self.contact_forces.shape, self.rigid)
+        print("rigid_body_tensor is ", self.rigid_body_states)
+        # TypeError: unsupported operand type(s) for *: 'NoneType' and 'float'
+        return 1
