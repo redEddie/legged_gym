@@ -32,7 +32,7 @@ from .base_config import BaseConfig
 
 class LeggedRobotCfg(BaseConfig):
     class env:
-        num_envs = 1
+        num_envs = 4096
         num_observations = 48
         num_privileged_obs = None # if not None a priviledge_obs_buf will be returned by step() (critic obs for assymetric training). None is returned otherwise 
         num_actions = 12
@@ -75,15 +75,15 @@ class LeggedRobotCfg(BaseConfig):
         class ranges:
             # lin_vel_x = [0., 0.] # min max [m/s]
 
-            lin_vel_x = [0.5, 0.5] # min max [m/s]
-            lin_vel_y = [0.0, 0.0]   # min max [m/s]
-            ang_vel_yaw = [0, 0]    # min max [rad/s]
-            heading = [0., 0.]
+            # lin_vel_x = [0.5, 0.5] # min max [m/s]
+            # lin_vel_y = [0.0, 0.0]   # min max [m/s]
+            # ang_vel_yaw = [0, 0]    # min max [rad/s]
+            # heading = [0., 0.]
 
-            # lin_vel_x = [-1.0, 1.0] # min max [m/s]
-            # lin_vel_y = [-1.0, 1.0]   # min max [m/s]
-            # ang_vel_yaw = [-1, 1]    # min max [rad/s]
-            # heading = [-3.14, 3.14]
+            lin_vel_x = [-1.0, 1.0] # min max [m/s]
+            lin_vel_y = [-1.0, 1.0]   # min max [m/s]
+            ang_vel_yaw = [-1, 1]    # min max [rad/s]
+            heading = [-3.14, 3.14]
 
     class init_state:
         pos = [0.0, 0.0, 1.] # x,y,z [m]
@@ -152,7 +152,7 @@ class LeggedRobotCfg(BaseConfig):
             feet_stumble = -0.
             action_rate = -0.01
             stand_still = -0.
-            foot_clearance = 0.00000000001
+            # foot_clearance = 0.00000000001
 
         only_positive_rewards = True # if true negative total rewards are clipped at zero (avoids early termination problems)
         tracking_sigma = 0.25 # tracking reward = exp(-error^2/sigma)
