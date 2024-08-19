@@ -32,7 +32,7 @@ from .base_config import BaseConfig
 
 class LeggedRobotCfg(BaseConfig):
     class env:
-        num_envs = 1024
+        num_envs = 16
         num_observations = 48
         num_privileged_obs = None # if not None a priviledge_obs_buf will be returned by step() (critic obs for assymetric training). None is returned otherwise 
         num_actions = 12
@@ -41,8 +41,8 @@ class LeggedRobotCfg(BaseConfig):
         episode_length_s = 20 # episode length in seconds
 
     class terrain:
-        mesh_type = 'trimesh' # "heightfield" # none, plane, heightfield or trimesh
-        # mesh_type = 'plane'
+        # mesh_type = 'trimesh' # "heightfield" # none, plane, heightfield or trimesh
+        mesh_type = 'plane'
         horizontal_scale = 0.1 # [m]
         vertical_scale = 0.005 # [m]
         border_size = 25 # [m]
@@ -73,14 +73,17 @@ class LeggedRobotCfg(BaseConfig):
         resampling_time = 10. # time before command are changed[s]
         heading_command = True # if true: compute ang vel command from heading error
         class ranges:
-            # lin_vel_x = [0.5, 0.5] # min max [m/s]
-            # lin_vel_y = [0.0, 0.0]   # min max [m/s]
-            # ang_vel_yaw = [0, 0]    # min max [rad/s]
-            # heading = [0., 0.]
-            lin_vel_x = [-1.0, 1.0] # min max [m/s]
-            lin_vel_y = [-1.0, 1.0]   # min max [m/s]
-            ang_vel_yaw = [-1, 1]    # min max [rad/s]
-            heading = [-3.14, 3.14]
+            # lin_vel_x = [0., 0.] # min max [m/s]
+
+            lin_vel_x = [0.5, 0.5] # min max [m/s]
+            lin_vel_y = [0.0, 0.0]   # min max [m/s]
+            ang_vel_yaw = [0, 0]    # min max [rad/s]
+            heading = [0., 0.]
+
+            # lin_vel_x = [-1.0, 1.0] # min max [m/s]
+            # lin_vel_y = [-1.0, 1.0]   # min max [m/s]
+            # ang_vel_yaw = [-1, 1]    # min max [rad/s]
+            # heading = [-3.14, 3.14]
 
     class init_state:
         pos = [0.0, 0.0, 1.] # x,y,z [m]
@@ -139,14 +142,14 @@ class LeggedRobotCfg(BaseConfig):
             tracking_ang_vel = 0.5
             lin_vel_z = -2.0
             ang_vel_xy = -0.05
-            orientation = -0.3
+            orientation = -0.8
             torques = -0.00001
             dof_vel = -0.
             dof_acc = -2.5e-7
-            base_height = -0.3
-            feet_air_time = 1.
+            base_height = -0.5
+            feet_air_time = 1.5
             collision = -1.1
-            feet_stumble = -0.0 
+            feet_stumble = -0.2
             action_rate = -0.01
             stand_still = -0.
 
@@ -155,7 +158,7 @@ class LeggedRobotCfg(BaseConfig):
         soft_dof_pos_limit = 1. # percentage of urdf limits, values above this limit are penalized
         soft_dof_vel_limit = 1.
         soft_torque_limit = 1.
-        base_height_target = 0.3
+        base_height_target = 0.4
         max_contact_force = 100. # forces above this value are penalized
 
     class normalization:
