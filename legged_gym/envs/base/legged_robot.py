@@ -903,12 +903,6 @@ class LeggedRobot(BaseTask):
         return torch.any(torch.norm(self.contact_forces[:, self.feet_indices, :2], dim=2) >\
              5 *torch.abs(self.contact_forces[:, self.feet_indices, 2]), dim=1)
 
-    def _reward_feet_stumble(self):
-        # custom
-        # how to get robot not to stutter on walk
-        return torch.any(torch.norm(self.contact_forces[:, self.feet_indices, :2], dim=2) >\
-             5 *torch.abs(self.contact_forces[:, self.feet_indices, 2]), dim=1)
-    
     def _reward_stand_still(self):
         # Penalize motion at zero commands
         return torch.sum(torch.abs(self.dof_pos - self.default_dof_pos), dim=1) * (torch.norm(self.commands[:, :2], dim=1) < 0.1)
@@ -920,5 +914,9 @@ class LeggedRobot(BaseTask):
     def _reward_foot_clearance(self):
         # match target foot clearance
         print("rigid_body_tensor is ", self.rigid_body_states)
-        # TypeError: unsupported operand type(s) for *: 'NoneType' and 'float'
+
+        # case #1 : standing will 
+        reward = -dist(target, current) * (foot_contact < 0)
+        
+        # TypeError: unsupported operand tyzpe(s) for *: 'NoneType' and 'float'
         return 1
