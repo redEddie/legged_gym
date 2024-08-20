@@ -75,15 +75,15 @@ class LeggedRobotCfg(BaseConfig):
         class ranges:
             # lin_vel_x = [0., 0.] # min max [m/s]
 
-            lin_vel_x = [0.5, 0.5] # min max [m/s]
-            lin_vel_y = [0.0, 0.0]   # min max [m/s]
-            ang_vel_yaw = [0, 0]    # min max [rad/s]
-            heading = [0., 0.]
+            # lin_vel_x = [0.5, 0.5] # min max [m/s]
+            # lin_vel_y = [0.0, 0.0]   # min max [m/s]
+            # ang_vel_yaw = [0, 0]    # min max [rad/s]
+            # heading = [0., 0.]
 
-            # lin_vel_x = [-1.0, 1.0] # min max [m/s]
-            # lin_vel_y = [-1.0, 1.0]   # min max [m/s]
-            # ang_vel_yaw = [-1, 1]    # min max [rad/s]
-            # heading = [-3.14, 3.14]
+            lin_vel_x = [-1.0, 1.0] # min max [m/s]
+            lin_vel_y = [-1.0, 1.0]   # min max [m/s]
+            ang_vel_yaw = [-1, 1]    # min max [rad/s]
+            heading = [-3.14, 3.14]
 
     class init_state:
         pos = [0.0, 0.0, 1.] # x,y,z [m]
@@ -161,6 +161,7 @@ class LeggedRobotCfg(BaseConfig):
         soft_torque_limit = 1.
         base_height_target = 0.4
         max_contact_force = 100. # forces above this value are penalized
+        foot_height_target = 0.2
 
     class normalization:
         class obs_scales:

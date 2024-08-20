@@ -913,7 +913,7 @@ class LeggedRobot(BaseTask):
 
     def _reward_foot_clearance(self):
         foot_height_ground = 0.0265
-        foot_height_target = 0.1
+        foot_height_target = self.cfg.rewards.foot_height_target
 
         def dist(target, current):
             return target - current
