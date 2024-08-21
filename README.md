@@ -1,6 +1,7 @@
 Observation (48) : (with lidar will be 235)
 Action (12) : position of each velocity
 
+```python legged_gym/scripts/train.py --task=aliengo --headless```
 
 ---
 
