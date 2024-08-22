@@ -73,11 +73,10 @@ class LeggedRobotCfg(BaseConfig):
         resampling_time = 10. # time before command are changed[s]
         heading_command = True # if true: compute ang vel command from heading error
         class ranges:
-            # lin_vel_x = [0., 0.] # min max [m/s]
 
-            lin_vel_x = [0.5, 0.5] # min max [m/s]
-            lin_vel_y = [0.0, 0.0]   # min max [m/s]
-            ang_vel_yaw = [0, 0]    # min max [rad/s]
+            lin_vel_x = [0., 0.] # min max [m/s]
+            lin_vel_y = [0., 0.]   # min max [m/s]
+            ang_vel_yaw = [1., 1.]    # min max [rad/s]
             heading = [0., 0.]
 
             # lin_vel_x = [-1.0, 1.0] # min max [m/s]
@@ -149,7 +148,7 @@ class LeggedRobotCfg(BaseConfig):
             base_height = -0.5
             feet_air_time = 2.
             collision = -1.1
-            feet_stumble = -0.
+            feet_stumble = -0.5
             action_rate = -0.01
             stand_still = -0.
             foot_clearance = -0.5       # too large weight will make robot walk with one leg on air
