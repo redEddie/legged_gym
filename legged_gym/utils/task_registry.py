@@ -143,6 +143,9 @@ class TaskRegistry():
         else:
             log_dir = os.path.join(log_root, datetime.now().strftime('%b%d_%H-%M-%S') + '_' + train_cfg.runner.run_name)
         
+        # manually get policy ckpt
+        log_dir = os.path.join(LEGGED_GYM_ROOT_DIR, 'ckpt', train_cfg.runner.experiment_name, '5_model_40050.pt')
+
         train_cfg_dict = class_to_dict(train_cfg)
         runner = OnPolicyRunner(env, train_cfg_dict, log_dir, device=args.rl_device)
         #save resume path before creating a new log_dir

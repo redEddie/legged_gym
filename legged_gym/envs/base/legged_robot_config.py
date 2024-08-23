@@ -132,7 +132,7 @@ class LeggedRobotCfg(BaseConfig):
         added_mass_range = [-1., 1.]
         push_robots = True
         push_interval_s = 5
-        max_push_vel_xy = 1.3
+        max_push_vel_xy = 1.5
 
     class rewards:
         class scales:
@@ -150,8 +150,9 @@ class LeggedRobotCfg(BaseConfig):
             collision = -1.1
             feet_stumble = -0.5
             action_rate = -0.01
-            stand_still = -0.
-            foot_clearance = -0.5       # too large weight will make robot walk with one leg on air
+            stand_still = -0.5
+            foot_clearance = -0.5       # too large weight will make robot walk with one leg on air, 0.5 suggested
+            narrow_leg = -0.       # 0.5 suggested
 
         only_positive_rewards = True # if true negative total rewards are clipped at zero (avoids early termination problems)
         tracking_sigma = 0.25 # tracking reward = exp(-error^2/sigma)

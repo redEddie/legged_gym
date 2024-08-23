@@ -904,6 +904,8 @@ class LeggedRobot(BaseTask):
         return torch.any(torch.norm(self.contact_forces[:, self.feet_indices, :2], dim=2) >\
              5 *torch.abs(self.contact_forces[:, self.feet_indices, 2]), dim=1)
 
+        return torch.any
+
     def _reward_stand_still(self):
         # Penalize motion at zero commands
         return torch.sum(torch.abs(self.dof_pos - self.default_dof_pos), dim=1) * (torch.norm(self.commands[:, :2], dim=1) < 0.1)
@@ -948,3 +950,28 @@ class LeggedRobot(BaseTask):
         # TypeError: unsupported operand tyzpe(s) for *: 'NoneType' and 'float'
         # cannot return None type.
         return torch.square(dist(foot_height_ground + foot_height_target, max_foot)) * (foot_contact > 0)
+
+
+    def _reward_narrow_leg(self):
+        # penalize for converging toward the center of the body
+        # print(self.feet_indices)
+        # print(self.rigid_body_states.shape)
+        # print(self.rigid_body_states[0, :, 0:3])
+  
+        _rigid_body_states = self.rigid_body_states[:, :, :]
+
+        _FR_thigh_pose_y = _rigid_body_states[:, self.feet_indices[0] - 2, 1]
+        _FR_foot_pose_y = _rigid_body_states[:, self.feet_indices[0], 1]
+        _FL_thigh_pose_y = _rigid_body_states[:, self.feet_indices[1] - 2, 1]
+        _FL_foot_pose_y = _rigid_body_states[:, self.feet_indices[1], 1]
+        _RR_thigh_pose_y = _rigid_body_states[:, self.feet_indices[2] - 2, 1]
+        _RR_foot_pose_y = _rigid_body_states[:, self.feet_indices[2], 1]
+        _RL_thigh_pose_y = _rigid_body_states[:, self.feet_indices[3] - 2, 1]
+        _RL_foot_pose_y = _rigid_body_states[:, self.feet_indices[3], 1]
+
+        deviation = torch.abs(_FR_thigh_pose_y - _FR_foot_pose_y) \
+                    + torch.abs(_FL_thigh_pose_y - _FL_foot_pose_y) \
+                    + torch.abs(_RR_thigh_pose_y - _RR_foot_pose_y) \
+                    + torch.abs(_RL_thigh_pose_y - _RL_foot_pose_y)
+
+        return deviation
